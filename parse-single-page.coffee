@@ -8,7 +8,7 @@ fs = require 'fs'
 jsdom = require 'jsdom'
 request = require 'superagent'
 jquery = fs.readFileSync("./jquery-1.7.2.min.js", 'utf8').toString()
-COOKIE = 'token=m3XJHXak3AdZUi71ohexww'
+COOKIE = "token=#{process.env.RC_TOKEN}"
 ASSET = /\d+-(.+)\.(png|jpg|jpeg|gif|zip|mp4|m4v|webm|ogv)/
 
 getAssetName = (path) ->
@@ -48,7 +48,8 @@ module.exports = exports = (host, path) ->
           screenshotPath = $('.screenshot img').attr('src')
           screenshot = getAssetName screenshotPath
 
-          # add_to_queue (url, dst_dir)
+          # TODO add_to_queue (url, dst_dir)
+          # and build a queue to fetch assets from railscasts.com
           # add_to_queue (host + screenshotPath), 'screenshots'
 
 

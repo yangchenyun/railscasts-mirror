@@ -12,7 +12,7 @@ parsePage = require './parse-single-page'
 
 jquery = fs.readFileSync("./jquery-1.7.2.min.js", 'utf8').toString()
 HOST = 'http://railscasts.com'
-COOKIE = 'token=m3XJHXak3AdZUi71ohexww'
+COOKIE = "token=#{process.env.RC_TOKEN}"
 
 parseIndex = (url, page) ->
   request
@@ -23,8 +23,8 @@ parseIndex = (url, page) ->
         html: res.text
         src: [jquery]
         done: (err, window) ->
-          # Parse the page with jQuery
           $ = window.$
+          # Parse the page with jQuery
           episodes = $('.episode')
           episodes.each (index, epi) ->
             # fetch the path
