@@ -18,6 +18,6 @@ else
 
 kue.app.set 'title', 'Rails Cast Download'
 kue.app.listen 2983, ->
-  console.log 'listening on 2983'
+  console.log 'kue app listening on 2983'
 
 module.exports = kue.createQueue()
