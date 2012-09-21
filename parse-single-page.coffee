@@ -7,6 +7,7 @@ require 'coffee-script'
 fs = require 'fs'
 jsdom = require 'jsdom'
 request = require 'superagent'
+jobs = require './job-init'
 jquery = fs.readFileSync("./jquery-1.7.2.min.js", 'utf8').toString()
 COOKIE = "token=#{process.env.RC_TOKEN}"
 ASSET = /\d+-(.+)\.(png|jpg|jpeg|gif|zip|mp4|m4v|webm|ogv)/
@@ -15,10 +16,30 @@ getAssetName = (path) ->
   index = path.search ASSET
   path.substring index
 
+addToJob = (url, dir, opts) ->
+  return unless url
+  opts ||= priority: normal, attempts: 5
+  type = url.match(/\.(\w+?)$/)[1]
+  job = jobs.create type,
+    title: "downloading #{url}"
+    url: url
+    dir : dir
+  .priority(opts.priority)
+  .attempts(opts.attempts)
+  .save()
+
+  job
+    .on 'complete', ->
+      console.log "Job complete"
+    .on 'failed', ->
+      console.log 'Job failed'
+    .on 'progress', (progress) ->
+      process.stdout.write "job #{job.id} #{progress}% complete"
+
 # The single page parser
 module.exports = exports = (host, path) ->
 
-  console.log "begin processing #{path}"
+  console.log "begin parsing #{path}"
 
   request
     .get(host + path)
@@ -48,10 +69,7 @@ module.exports = exports = (host, path) ->
           screenshotPath = $('.screenshot img').attr('src')
           screenshot = getAssetName screenshotPath
 
-          # TODO add_to_queue (url, dst_dir)
-          # and build a queue to fetch assets from railscasts.com
-          # add_to_queue (host + screenshotPath), 'screenshots'
-
+          addToJob(host + screenshotPath, 'screenshot', priority : 'high', attempts : 2)
 
           videoPath = ''
           sourcePath = ''
@@ -65,11 +83,11 @@ module.exports = exports = (host, path) ->
               when 'mp4' then videoPath = link.href
 
 
-          # add_to_queue (host + sourcePath), 'source-codes'
-          # add_to_queue (host + videoPath), 'videos'
+          addToJob(sourcePath, 'source-code', priority : 'normal', attempts : 2)
+          addToJob(videoPath, 'video', priority : 'low', attempts : 10)
 
           video = getAssetName videoPath
           source = getAssetName sourcePath
 
-          console.log { sequence, title, date, length, tags, description, noteHtml, screenshot, video, source }
-          console.log "finish processing #{path}"
+          { sequence, title, date, length, tags, description, noteHtml, screenshot, video, source }
+          console.log "finish parsing #{path}"
