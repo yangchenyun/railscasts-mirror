@@ -4,7 +4,7 @@ A downloader / parser to fetch videos with meta data from railscasts.com with su
 2. mirror an simple rails-casts server
 
 ## Work-in-progress
-- write a server with `express`
+- write a mirror server with `express`
 
 ## Why
 The speed within domestic China is too slow for smooth streaming from railscasts.com, so I decided to create a parser/downloader to fetch the videos all at once with their individual meta data.
@@ -21,8 +21,13 @@ The speed within domestic China is too slow for smooth streaming from railscasts
 ## Usage
 Setup `$RC_TOKEN` to hold your login token which will be used to login your professional account.
 
+`export RC_TOKEN=your_token_at_rails_cats`
+
+Install dependencies with:
 `npm install`
 
 Need to have redis server installed to use `kue`, communicate with the app through the `$REDISTOGO_URL` variable in the format `redis://redis:<password>@<host>:<port>`.
 
-`coffee index-page-parser.coffee` to start job processing.
+`npm run fetch` to start to fetch to all assets url.
+
+`npm run process` to start download all assets.
