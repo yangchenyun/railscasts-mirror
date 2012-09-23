@@ -14,9 +14,10 @@ downloadAsset = (file_url, dir, callback) ->
     child.on 'exit', (code) ->
       callback()
 
-jobs.process 'zip', 1, (job, done) ->
-  {url, dir} = job.data
-  downloadAsset(url, dir, done)
+for format in ['zip', 'png', 'mp4']
+  jobs.process format, 1, (job, done) ->
+    {url, dir} = job.data
+    downloadAsset(url, dir, done)
 
 kue.app.set 'title', 'Rails Cast Download'
 kue.app.listen 2983
