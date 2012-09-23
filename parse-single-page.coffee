@@ -37,7 +37,7 @@ addToJob = (url, dir, opts) ->
       process.stdout.write "job #{job.id} #{progress}% complete"
 
 # The single page parser
-module.exports = exports = (host, path) ->
+module.exports = exports = (host, path, callback) ->
 
   console.log "begin parsing #{path}"
 
@@ -89,5 +89,5 @@ module.exports = exports = (host, path) ->
           video = getAssetName videoPath
           source = getAssetName sourcePath
 
-          { sequence, title, date, length, tags, description, noteHtml, screenshot, video, source }
           console.log "finish parsing #{path}"
+          callback { sequence, title, date, length, tags, description, noteHtml, screenshot, video, source }
