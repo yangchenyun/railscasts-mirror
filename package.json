@@ -15,5 +15,9 @@
     "kue": "~0.4.0",
     "redis": "~0.8.1",
     "hiredis": "~0.1.14"
+  },
+  "scripts": {
+    "fetch": "./node_modules/coffee-script/bin/coffee index-page-parser.coffee",
+    "process": "./node_modules/coffee-script/bin/coffee job-process.coffee"
   }
 }
