@@ -18,6 +18,7 @@
   },
   "scripts": {
     "fetch": "./node_modules/coffee-script/bin/coffee index-page-parser.coffee",
+    "clean": "rm -rf screenshot video source-code",
     "process": "./node_modules/coffee-script/bin/coffee job-process.coffee"
   }
 }
