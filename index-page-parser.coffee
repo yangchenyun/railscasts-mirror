@@ -36,13 +36,15 @@ parseIndex = (url, page) ->
             parsePage HOST, path, (data) ->
               results.push data
 
-          if page <= 43
-            # recursively fetch other pages
-            parseIndex url, page + 1
+          if page <= 1
+            # recursively fetch other pages after 1 min
+            setTimeout ->
+             parseIndex url, page + 1
+            , 1 * 60 * 1000
 
           else
             # the end and write data to file
-            fs.writeFile "./data.json", JSON.stringify(results), (err) ->
+            fs.writeFile "./data.json", JSON.stringify(results, null, ' '), (err) ->
               if err
                 console.log err
               else
