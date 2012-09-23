@@ -34,6 +34,6 @@ parseIndex = (url, page) ->
             parsePage(HOST, path)
 
           # recursively fetch other pages
-          # parseIndex(url, page + 1) unless page > 43
+          parseIndex(url, page + 1) unless page > 43
 
 parseIndex "#{HOST}?page=", 1
