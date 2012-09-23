@@ -16,8 +16,6 @@ else
     client.select(process.env.REDIS_DB || '2')
     client
 
-kue.app.set 'title', 'Rails Cast Download'
-kue.app.listen 2983, ->
-  console.log 'kue app listening on 2983'
-
-module.exports = kue.createQueue()
+module.exports =
+  jobs: kue.createQueue()
+  kue: kue

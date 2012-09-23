@@ -7,7 +7,7 @@ require 'coffee-script'
 fs = require 'fs'
 jsdom = require 'jsdom'
 request = require 'superagent'
-jobs = require './job-init'
+jobs = require('./job-init').jobs
 jquery = fs.readFileSync("./jquery-1.7.2.min.js", 'utf8').toString()
 COOKIE = "token=#{process.env.RC_TOKEN}"
 ASSET = /\d+-(.+)\.(png|jpg|jpeg|gif|zip|mp4|m4v|webm|ogv)/
