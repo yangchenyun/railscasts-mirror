@@ -13,6 +13,7 @@ parsePage = require './parse-single-page'
 jquery = fs.readFileSync("./jquery-1.7.2.min.js", 'utf8').toString()
 HOST = 'http://railscasts.com'
 COOKIE = "token=#{process.env.RC_TOKEN}"
+results = []
 
 parseIndex = (url, page) ->
   request
@@ -31,9 +32,20 @@ parseIndex = (url, page) ->
             path = $('.watch a', epi).attr('href').replace(/\?.+$/,'')
 
             # deligate the parsing task to single page parsing
-            parsePage(HOST, path)
+            # store the result
+            parsePage HOST, path, (data) ->
+              results.push data
 
-          # recursively fetch other pages
-          parseIndex(url, page + 1) unless page > 43
+          if page <= 43
+            # recursively fetch other pages
+            parseIndex url, page + 1
+
+          else
+            # the end and write data to file
+            fs.writeFile "./data.json", JSON.stringify(results), (err) ->
+              if err
+                console.log err
+              else
+                console.log "results are saves to data.json"
 
 parseIndex "#{HOST}?page=", 1
