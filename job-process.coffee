@@ -10,6 +10,8 @@ downloadAsset = (file_url, dir, callback) ->
     child = exec wget, (err, stdout, stderr) ->
       throw err if err
       console.log "#{fileName} downloaded to #{dir}"
+      console.log 'stdout: ' + stdout
+      console.log 'stderr: ' + stderr
 
     child.on 'exit', (code) ->
       callback()
