@@ -13,7 +13,15 @@ parsePage = require './parse-single-page'
 jquery = fs.readFileSync("./jquery-1.7.2.min.js", 'utf8').toString()
 HOST = 'http://railscasts.com'
 COOKIE = "token=#{process.env.RC_TOKEN}"
+LAST_PAGE = 2
 results = []
+
+writeData = ->
+  fs.writeFile "./data.json", JSON.stringify(results, null, ' '), (err) ->
+    if err
+      console.log err
+    else
+      console.log "results are saves to data.json"
 
 parseIndex = (url, page) ->
   request
@@ -27,6 +35,11 @@ parseIndex = (url, page) ->
           $ = window.$
           # Parse the page with jQuery
           episodes = $('.episode')
+
+          # FIXME use promises to rewrite this part
+          expectCall = episodes.length
+          actualCall = 0
+
           episodes.each (index, epi) ->
             # fetch the path
             path = $('.watch a', epi).attr('href').replace(/\?.+$/,'')
@@ -34,20 +47,17 @@ parseIndex = (url, page) ->
             # deligate the parsing task to single page parsing
             # store the result
             parsePage HOST, path, (data) ->
+              # add result for after each parsing
               results.push data
+              actualCall++
 
-          if page <= 1
-            # recursively fetch other pages after 1 min
+              # detect the end and write data to file
+              writeData() if page is LAST_PAGE && expectCall is actualCall
+
+          if page <= LAST_PAGE
+            # recursively fetch other pages after 30 seconds
             setTimeout ->
              parseIndex url, page + 1
-            , 1 * 60 * 1000
-
-          else
-            # the end and write data to file
-            fs.writeFile "./data.json", JSON.stringify(results, null, ' '), (err) ->
-              if err
-                console.log err
-              else
-                console.log "results are saves to data.json"
+            , 30 * 1000
 
 parseIndex "#{HOST}?page=", 1
