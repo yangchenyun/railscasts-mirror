@@ -4,7 +4,9 @@
   "description": "Mirror an rails-casts server for local service",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "fetch": "./node_modules/coffee-script/bin/coffee index-page-parser.coffee",
+    "clean": "rm -rf screenshot video source-code",
+    "process": "./node_modules/coffee-script/bin/coffee job-process.coffee"
   },
   "author": "Steven Yang",
   "license": "MIT",
@@ -14,11 +16,8 @@
     "superagent": "~0.9.3",
     "kue": "~0.4.0",
     "redis": "~0.8.1",
-    "hiredis": "~0.1.14"
-  },
-  "scripts": {
-    "fetch": "./node_modules/coffee-script/bin/coffee index-page-parser.coffee",
-    "clean": "rm -rf screenshot video source-code",
-    "process": "./node_modules/coffee-script/bin/coffee job-process.coffee"
+    "hiredis": "~0.1.14",
+    "express": "~3.0.0rc4",
+    "ejs": "~0.8.3"
   }
 }
