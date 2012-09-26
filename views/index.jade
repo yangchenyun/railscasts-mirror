@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .content
+    .side
+      .search_options
+        h2 Tags
+        ul
+          li
+            a(href='#') Active Resource
+
+    # for each
+    .episodes
+      .full
+        .episode
+          .screenshot
+            a(href='')
+              img(widht='200', height='125', src='')
+          .main
+            .info
+              span.number
+              span.published_at
+            h2 Tagging
+            .description episode.description
+              span.stats episode.length
+
+            div.watch
+              a.pretty_button(href='') Watch Episode
+    div.clear
+    # end foreach
