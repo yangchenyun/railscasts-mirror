@@ -1,0 +1,26 @@
+doctype 5
+html
+  head
+    title Mirror for RailsCasts
+    script(src='script.js')
+    link(href='stylesheet.css', type="text/css", media="screen")
+    meta(content="Short Ruby on Rails screencasts containing tips, tricks and tutorials. Great for both novice and experienced web developers.", name="description")
+    meta(content="rails, ruby on rails, screencasts, railscast, railscasts, tips, tricks, tutorials, training, podcasts, programming", name="keywords")
+
+  body
+    #top
+      .logo
+        a
+          img(width='423', height='56', src='logo.png')
+
+    #nav_bar
+      form(method='get', action='/episodes')
+        input(type=hidden, value='✓')
+        input(type="text", size="35", nae="search", id="search")
+        input(type="submit", value="Search Episodes")
+    
+    #main
+      block content
+
+    #footer
+      .inner &copy;2012 RailsCasts 
