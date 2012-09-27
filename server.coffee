@@ -17,7 +17,7 @@ app.use '/public', express.static "#{__dirname}/public"
 data = fs.readFileSync 'data.json'
 episodes = JSON.parse(data)
 
-accounts = ['zenhacks:its-a-secret']
+accounts = process.env.RC_ACCOUNT
 
 auth = (req, res, next) ->
   if req.headers.authorization && req.headers.authorization.search('Basic ') is 0
@@ -28,7 +28,7 @@ auth = (req, res, next) ->
       next()
       return
 
-  res.header 'WWW-Authenticate', 'Basic realm=Auth to use railscasts mirror'
+  res.header 'WWW-Authenticate', 'Basic realm=Auth'
 
   timeout = 0
   if req.headers.authorization
