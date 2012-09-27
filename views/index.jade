@@ -22,7 +22,8 @@ block content
                     span.published_at 
                       - var date = new Date(episode.date).toDateString()
                       | #{date}
-                  h2 #{episode.title}
+                  h2 
+                    a(href='/episodes/#{episode.slug}') #{episode.title}
                   .description #{episode.description}
                     span.stats (#{episode.length})
 
