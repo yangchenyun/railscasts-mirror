@@ -21,8 +21,16 @@ app.get '/', (req, res) ->
   res.render 'index', { episodes: episodes }
 
 app.get '/episodes/:seq', (req, res) ->
-  episode = episodes[2]
-  res.render 'episode', { episode: episode }
+
+  episode = null
+  for this_epi in episodes
+    if this_epi.sequence is parseInt(req.params['seq'], 10)
+      episode = this_epi
+
+  if episode
+    res.render 'episode', { episode: episode }
+  else
+    res.render '404'
 
 app.get '/tag/:tag', (req, res) ->
 
