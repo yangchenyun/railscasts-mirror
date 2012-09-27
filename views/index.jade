@@ -19,7 +19,9 @@ block content
                 .main
                   .info
                     span.number Episode ##{episode.sequence} - 
-                    span.published_at #{episode.date}
+                    span.published_at 
+                      - var date = new Date(episode.date).toDateString()
+                      | #{date}
                   h2 #{episode.title}
                   .description #{episode.description}
                     span.stats (#{episode.length})

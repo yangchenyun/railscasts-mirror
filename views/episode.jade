@@ -10,7 +10,8 @@ block content
         span.position ##{episode.sequence}
         #{episode.title}
       .details
-         #{episode.date}  | 
+         - var date = new Date(episode.date).toDateString()
+         | #{date}  | 
          #{episode.length} | 
          each tag in episode.tags
            a(href='/tag/#{tag}') #{tag},  
