@@ -17,10 +17,32 @@ app.use '/public', express.static "#{__dirname}/public"
 data = fs.readFileSync 'data.json'
 episodes = JSON.parse(data)
 
-app.get '/', (req, res) ->
+accounts = ['zenhacks:its-a-secret']
+
+auth = (req, res, next) ->
+  if req.headers.authorization && req.headers.authorization.search('Basic ') is 0
+    authString = new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString()
+    # account:passwd exists in the auth header
+    # allow access to resources
+    if accounts.indexOf(authString) isnt -1
+      next()
+      return
+
+  res.header 'WWW-Authenticate', 'Basic realm=Auth to use railscasts mirror'
+
+  timeout = 0
+  if req.headers.authorization
+    # cache for  60 mins
+    timeout = 60 * 60 * 1000
+
+  setTimeout ->
+    res.send 'Authentication required', 401
+  , timeout
+
+app.get '/', auth, (req, res) ->
   res.render 'index', { episodes: episodes }
 
-app.get '/episodes/:seq', (req, res) ->
+app.get '/episodes/:seq', auth, (req, res) ->
 
   episode = null
   for this_epi in episodes
