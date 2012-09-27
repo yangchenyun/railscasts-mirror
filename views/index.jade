@@ -9,22 +9,21 @@ block content
           li
             a(href='#') Active Resource
 
-    # for each
     .episodes
       .full
-        .episode
-          .screenshot
-            a(href='')
-              img(widht='200', height='125', src='')
-          .main
-            .info
-              span.number
-              span.published_at
-            h2 Tagging
-            .description episode.description
-              span.stats episode.length
+        each episode in episodes
+              .episode
+                .screenshot
+                  a(href='episodes/#{episode.sequence}')
+                    img(width='200', height='125', src='screenshot/#{episode.screenshot}')
+                .main
+                  .info
+                    span.number Episode ##{episode.sequence} - 
+                    span.published_at #{episode.date}
+                  h2 #{episode.title}
+                  .description #{episode.description}
+                    span.stats (#{episode.length})
 
-            div.watch
-              a.pretty_button(href='') Watch Episode
-    div.clear
-    # end foreach
+                  div.watch
+                    a.pretty_button(href='episodes/#{episode.sequence}') Watch Episode
+                div.clear
