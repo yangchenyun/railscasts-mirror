@@ -7,8 +7,8 @@ block content
         a(href='/episodes/#{episode.slug}')
           img(alt='#{episode.title}', width='200', height='125', src='/screenshot/#{episode.screenshot}')
       h1
-        span.position ##{episode.sequence}
-        #{episode.title}
+        span.position ##{episode.sequence} 
+        | #{episode.title}
       .details
          - var date = new Date(episode.date).toDateString()
          | #{date}  | 
