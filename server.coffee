@@ -18,9 +18,11 @@ data = fs.readFileSync 'data.json'
 episodes = JSON.parse(data)
 
 app.get '/', (req, res) ->
-  res.render 'index.ejs', { episodes: episodes, layout: 'layout' }
+  res.render 'index', { episodes: episodes }
 
-app.get '/:seq', (req, res) ->
+app.get '/episodes/:seq', (req, res) ->
+  episode = episodes[2]
+  res.render 'episode', { episode: episode }
 
 app.get '/tag/:tag', (req, res) ->
 

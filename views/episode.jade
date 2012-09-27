@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  #episode
+    .info
+      .screenshot
+        a(href='/episodes/#{episode.sequence}')
+          img(alt='#{episode.title}', width='200', height='125', src='/screenshot/#{episode.screenshot}')
+      h1
+        span.position ##{episode.sequence}
+        #{episode.title}
+      .details
+         #{episode.date}  | 
+         #{episode.length} | 
+         each tag in episode.tags
+           a(href='/tag/#{tag}') #{tag},  
+      .description #{episode.description}
+      .watch
+        a.pretty_button(href='/episodes/#{episode.sequence}') Click to Play Video
+      ul.downloads.horizontal
+        li Downloads:
+        li
+          a(href='/source-code/#{episode.source}') source code
+        li
+          a(href='/video/#{episode.video}') mp4
+      .clear
+
+    ul.nav.horizontal
+      li.selected
+        a.selected.tab(href='/episodes/#{episode.sequence}') Notes
+      li
+        a.tab(href='') Similar Episodes
+
+    .nav_section
+      .inner
+        div.show_notes 
+          #{episode.noteHtml}
