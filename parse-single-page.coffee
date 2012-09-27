@@ -69,6 +69,9 @@ module.exports = exports = (host, path, callback) ->
           screenshotPath = $('.screenshot img').attr('src')
           screenshot = getAssetName screenshotPath
 
+          # generate the slug as a primary key
+          slug = screenshot.replace(/\.(.+)$/, '')
+
           addToJob(host + screenshotPath, 'screenshot', priority : 'high', attempts : 2)
 
           videoPath = ''
@@ -90,4 +93,4 @@ module.exports = exports = (host, path, callback) ->
           source = getAssetName sourcePath
 
           console.log "finish parsing #{path}"
-          callback { sequence, title, date, length, tags, description, noteHtml, screenshot, video, source }
+          callback { sequence, slug, title, date, length, tags, description, noteHtml, screenshot, video, source }

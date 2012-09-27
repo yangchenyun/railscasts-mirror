@@ -14,7 +14,7 @@ block content
         each episode in episodes
               .episode
                 .screenshot
-                  a(href='/episodes/#{episode.sequence}')
+                  a(href='/episodes/#{episode.slug}')
                     img(alt='#{episode.title}', width='200', height='125', src='screenshot/#{episode.screenshot}')
                 .main
                   .info
@@ -25,5 +25,5 @@ block content
                     span.stats (#{episode.length})
 
                   div.watch
-                    a.pretty_button(href='/episodes/#{episode.sequence}') Watch Episode
+                    a.pretty_button(href='/episodes/#{episode.slug}') Watch Episode
                 div.clear
