@@ -1,20 +1,28 @@
 {kue, jobs} = require('./job-init')
 Job = kue.Job
 exec = require('child_process').exec
+fs = require('fs')
 
 downloadAsset = (file_url, dir, callback) ->
     fileName = require('url').parse(file_url).pathname.split('/').pop()
-    console.log "start downloading #{fileName} to #{dir}"
-    wget = "wget -P #{dir} #{file_url}"
+    fs.exists "#{dir}/#{fileName}", (exists) ->
 
-    child = exec wget, (err, stdout, stderr) ->
-      throw err if err
-      console.log "#{fileName} downloaded to #{dir}"
-      console.log 'stdout: ' + stdout
-      console.log 'stderr: ' + stderr
+      if exists
+        console.log "#{fileName} exists at #{dir}, skip downloading"
+        callback()
 
-    child.on 'exit', (code) ->
-      callback()
+      else
+        console.log "start downloading #{fileName} to #{dir}"
+        wget = "wget -P #{dir} #{file_url}"
+
+        child = exec wget, (err, stdout, stderr) ->
+          throw err if err
+          console.log "#{fileName} downloaded to #{dir}"
+          console.log 'stdout: ' + stdout
+          console.log 'stderr: ' + stderr
+
+        child.on 'exit', (code) ->
+          callback()
 
 for format in ['zip', 'png', 'mp4']
   jobs.process format, 1, (job, done) ->
