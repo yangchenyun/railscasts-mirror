@@ -43,11 +43,11 @@ auth = (req, res, next) ->
 app.get '/', auth, (req, res) ->
   res.render 'index', { episodes: episodes }
 
-app.get '/episodes/:seq', auth, (req, res) ->
+app.get '/episodes/:slug', auth, (req, res) ->
 
   episode = null
   for this_epi in episodes
-    if this_epi.sequence is parseInt(req.params['seq'], 10)
+    if req.params['slug'] is this_epi.slug
       episode = this_epi
 
   if episode
