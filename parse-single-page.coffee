@@ -67,7 +67,7 @@ module.exports = exports = (host, path, callback) ->
 
           # fetch the screenshot name and add to download queue
           screenshotPath = $('.screenshot img').attr('src')
-          screenshot = getAssetName screenshotPath
+          screenshot = getAssetName screenshotPath + '.png'
 
           # generate the slug as a primary key
           slug = screenshot.replace(/\.(.+)$/, '')
