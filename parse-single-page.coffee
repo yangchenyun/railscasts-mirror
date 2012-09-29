@@ -89,8 +89,8 @@ module.exports = exports = (host, path, callback) ->
                 videoPath = link.href
                 addToJob videoPath, 'video', priority : 'low', attempts : 10
 
-          video = getAssetName videoPath
-          source = getAssetName sourcePath
+          video = getAssetName(videoPath)
+          source = getAssetName(sourcePath) + '.zip'
 
           console.log "finish parsing #{path}"
           callback { sequence, slug, title, date, length, tags, description, noteHtml, screenshot, video, source }
