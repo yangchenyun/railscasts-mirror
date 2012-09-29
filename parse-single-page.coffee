@@ -82,12 +82,12 @@ module.exports = exports = (host, path, callback) ->
           links.each (index, link) ->
 
             switch  $(link).text()
-              when 'source code' then sourcePath = link.href
-              when 'mp4' then videoPath = link.href
-
-
-          addToJob(sourcePath, 'source-code', priority : 'normal', attempts : 2)
-          addToJob(videoPath, 'video', priority : 'low', attempts : 10)
+              when 'source code'
+                sourcePath = link.href
+                addToJob sourcePath, 'source-code', priority : 'normal', attempts : 2
+              when 'mp4', 'webm'
+                videoPath = link.href
+                addToJob videoPath, 'video', priority : 'low', attempts : 10
 
           video = getAssetName videoPath
           source = getAssetName sourcePath
