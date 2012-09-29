@@ -8,6 +8,7 @@ app.set 'view engine', 'jade'
 app.set 'views', "#{__dirname}/views"
 
 # serve static files
+# FIXME need to write streaming server for video now
 app.use '/video', express.static "#{__dirname}/video"
 app.use '/source-code', express.static "#{__dirname}/source-code"
 app.use '/screenshot', express.static "#{__dirname}/screenshot"
