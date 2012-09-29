@@ -24,7 +24,7 @@ downloadAsset = (file_url, dir, callback) ->
         child.on 'exit', (code) ->
           callback()
 
-for format in ['zip', 'png', 'mp4']
+for format in ['zip', 'png', 'mp4', 'webm']
   jobs.process format, 1, (job, done) ->
     {url, dir} = job.data
     downloadAsset(url, dir, done)
