@@ -14,7 +14,7 @@ ASSET = /\d+-(.+)\.(png|jpg|jpeg|gif|zip|mp4|m4v|webm|ogv)/
 
 getAssetName = (path) ->
   index = path.search ASSET
-  path.substring index
+  path.substring(index).replace(/\.\w+$/, '')
 
 addToJob = (url, dir, opts) ->
   return unless url
