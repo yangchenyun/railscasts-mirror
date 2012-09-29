@@ -13,7 +13,8 @@ parsePage = require './parse-single-page'
 jquery = fs.readFileSync("./jquery-1.7.2.min.js", 'utf8').toString()
 HOST = 'http://railscasts.com'
 COOKIE = "token=#{process.env.RC_TOKEN}"
-LAST_PAGE = 43
+# FIXME auto detect last page
+LAST_PAGE = 44
 results = []
 
 writeData = ->
