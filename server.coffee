@@ -1,6 +1,8 @@
-db = require('mongoskin').db('localhost:27017/rails_casts')
+process.env.MONGOSKIN_URL ||= 'mongodb://localhost/rails_casts'
+db = require('mongoskin').db(process.env.MONGOSKIN_URL)
 express = require('express')
 fs = require('fs')
+
 app = express()
 app.use express.bodyParser()
 app.use express.methodOverride()
