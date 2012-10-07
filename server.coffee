@@ -6,6 +6,7 @@ app.use express.bodyParser()
 app.use express.methodOverride()
 app.use app.router
 app.set 'view engine', 'jade'
+app.enable 'view cache'
 app.set 'views', "#{__dirname}/views"
 
 # serve static files
@@ -18,6 +19,9 @@ app.use '/public', express.static "#{__dirname}/public"
 # prepare the data
 data = fs.readFileSync 'data.json'
 episodes = JSON.parse(data)
+
+mongo = require('mongoskin')
+db = mongo.db('localhost:27017/rails_casts')
 
 accounts = process.env.RC_ACCOUNT
 
@@ -64,17 +68,22 @@ app.get '/episodes', auth, (req, res) ->
 
 app.get '/episodes/:slug', auth, (req, res) ->
 
-  episode = null
-  for this_epi in episodes
-    if req.params['slug'] is this_epi.slug
-      episode = this_epi
-
-  if episode
-    res.render 'episode', { episode: episode }
-  else
-    res.render '404'
+  db.collection('episodes').findOne { slug: req.params['slug'] }, (err, episode) ->
+    if episode
+      res.render 'episode', { episode: episode }
+    else
+      res.render '404'
 
 app.get '/tag/:tag', (req, res) ->
+
+  db.collection('episodes').distinct 'tags', (err, tags) ->
+    tags = tags.filter (item)-> return true if item
+    db.collection('episodes').find( { tags: req.params['tag'] } )
+      .toArray (err, episodes) ->
+        if episodes
+          res.render 'index', { episodes: episodes, tags: tags }
+        else
+          res.render '404'
 
 app.listen 2734, ->
   console.log "mirror server listening at 2734"
