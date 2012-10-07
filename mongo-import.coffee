@@ -1,6 +1,6 @@
 fs = require('fs')
-mongo = require('mongoskin')
-db = mongo.db('localhost:27017/rails_casts')
+process.env.MONGOSKIN_URL ||= 'mongodb://localhost/rails_casts'
+db = require('mongoskin').db(process.env.MONGOSKIN_URL)
 
 data = fs.readFileSync 'data.json'
 episodes = JSON.parse(data)
