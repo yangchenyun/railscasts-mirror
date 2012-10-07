@@ -7,6 +7,7 @@
     "fetch": "./node_modules/coffee-script/bin/coffee index-page-parser.coffee",
     "clean": "rm -r screenshot video source-code",
     "process": "./node_modules/coffee-script/bin/coffee job-process.coffee",
+    "import": "./node_modules/coffee-script/bin/coffee mongo-import.coffee",
     "start": "./node_modules/coffee-script/bin/coffee server.coffee"
   },
   "author": "Steven Yang",

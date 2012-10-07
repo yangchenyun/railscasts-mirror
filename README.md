@@ -3,8 +3,9 @@ A downloader / parser to fetch videos with meta data from railscasts.com with su
 1. fetch all the video you could access
 2. mirror an simple rails-casts server
 
-## Work-in-progress
-- write a mirror server with `express`
+## Work-in-Progress
+1. Let the page parser to talk with the model
+2. pagination
 
 ## Why
 The speed within domestic China is too slow for smooth streaming from railscasts.com, so I decided to create a parser/downloader to fetch the videos all at once with their individual meta data.
@@ -18,10 +19,20 @@ The speed within domestic China is too slow for smooth streaming from railscasts
 
 `express` is used to simulate a simple web server.
 
+`mongoskin` is used as the backend model driver.
+
 ## Usage
-Setup `$RC_TOKEN` to hold your login token which will be used to login your professional account.
+`$RC_TOKEN`: to hold your login token which will be used to login your professional account.
 
 `export RC_TOKEN=your_token_at_rails_cats`
+
+`$RC_ACCOUNT` is used to hold HTTP Auth infomation:
+
+`export RC_ACCOUNT=username:passw
+
+`$MONGOSKIN_URL` is the info used by the app to connect with mongodb, it follows the format in the [doc](https://github.com/kissjs/node-mongoskin#module)
+
+`export MONGOSKIN_URL=mongo://admin:pass@127.0.0.1:27017/rails_casts`
 
 Install dependencies with:
 `npm install`
@@ -31,3 +42,7 @@ Need to have redis server installed to use `kue`, communicate with the app throu
 `npm run fetch` to start to fetch to all assets url.
 
 `npm run process` to start download all assets.
+
+`npm run import` to import data to mongodb
+
+`npm start` to start the server
