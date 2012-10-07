@@ -66,7 +66,7 @@ app.get '/episodes', auth, (req, res) ->
     tags = tags.filter (item)-> return true if item
     db.collection('episodes').find(query)
       .toArray (err, items) ->
-        res.render 'index', { episodes: items }
+        res.render 'index', { episodes: items, tags: tags }
 
 app.get '/episodes/:slug', auth, (req, res) ->
 
