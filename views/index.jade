@@ -6,27 +6,28 @@ block content
       .search_options
         h2 Tags
         ul
-          li
-            a(href='#') Active Resource
+          each tag in tags
+            li
+              a(href='/tag/#{tag}') #{tag}
 
     .episodes
       .full
         each episode in episodes
-              .episode
-                .screenshot
-                  a(href='/episodes/#{episode.slug}')
-                    img(alt='#{episode.title}', width='200', height='125', src='screenshot/#{episode.screenshot}')
-                .main
-                  .info
-                    span.number Episode ##{episode.sequence} - 
-                    span.published_at 
-                      - var date = new Date(episode.date).toDateString()
-                      | #{date}
-                  h2 
-                    a(href='/episodes/#{episode.slug}') #{episode.title}
-                  .description #{episode.description}
-                    span.stats (#{episode.length})
+          .episode
+            .screenshot
+              a(href='/episodes/#{episode.slug}')
+                img(alt='#{episode.title}', width='200', height='125', src='screenshot/#{episode.screenshot}')
+            .main
+              .info
+                span.number Episode ##{episode.sequence} - 
+                span.published_at 
+                  - var date = new Date(episode.date).toDateString()
+                  | #{date}
+              h2 
+                a(href='/episodes/#{episode.slug}') #{episode.title}
+              .description #{episode.description}
+                span.stats (#{episode.length})
 
-                  div.watch
-                    a.pretty_button(href='/episodes/#{episode.slug}') Watch Episode
-                div.clear
+              div.watch
+                a.pretty_button(href='/episodes/#{episode.slug}') Watch Episode
+            div.clear

@@ -42,22 +42,25 @@ auth = (req, res, next) ->
   , timeout
 
 app.get '/', auth, (req, res) ->
-  db.collection('episodes').find().toArray (err, items) ->
-    res.render 'index', { episodes: items }
+  db.collection('episodes').distinct 'tags', (err, tags) ->
+    tags = tags.filter (item)-> return true if item
+    db.collection('episodes').find().toArray (err, items) ->
+      res.render 'index', { episodes: items, tags: tags }
 
 app.get '/episodes', auth, (req, res) ->
   words = req.query['search'].split(' ').join('|')
 
   # match each word against title and description
-
   matchTitle = { title : { $regex : words, $options: 'i' } }
   matchDesc = { description : { $regex : words, $options: 'i' } }
 
   query = { $or: [ matchTitle, matchDesc ] }
 
-  db.collection('episodes').find(query)
-    .toArray (err, items) ->
-      res.render 'index', { episodes: items }
+  db.collection('episodes').distinct 'tags', (err, tags) ->
+    tags = tags.filter (item)-> return true if item
+    db.collection('episodes').find(query)
+      .toArray (err, items) ->
+        res.render 'index', { episodes: items }
 
 app.get '/episodes/:slug', auth, (req, res) ->
 
