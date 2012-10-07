@@ -1,3 +1,4 @@
+db = require('mongoskin').db('localhost:27017/rails_casts')
 express = require('express')
 fs = require('fs')
 app = express()
@@ -41,7 +42,22 @@ auth = (req, res, next) ->
   , timeout
 
 app.get '/', auth, (req, res) ->
-  res.render 'index', { episodes: episodes }
+  db.collection('episodes').find().toArray (err, items) ->
+    res.render 'index', { episodes: items }
+
+app.get '/episodes', auth, (req, res) ->
+  words = req.query['search'].split(' ').join('|')
+
+  # match each word against title and description
+
+  matchTitle = { title : { $regex : words, $options: 'i' } }
+  matchDesc = { description : { $regex : words, $options: 'i' } }
+
+  query = { $or: [ matchTitle, matchDesc ] }
+
+  db.collection('episodes').find(query)
+    .toArray (err, items) ->
+      res.render 'index', { episodes: items }
 
 app.get '/episodes/:slug', auth, (req, res) ->
 
